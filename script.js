@@ -5,7 +5,7 @@ yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
     <div class="container">
       <h1>¡Sabía que me perdonarías! 🥰💖</h1>
-      <img src="https://i.imgur.com/5ZC3LzV.png" alt="Feliz" class="cute-img">
+      <img src="feliz.jpg" alt="Feliz" class="cute-img">
     </div>
   `;
 });
