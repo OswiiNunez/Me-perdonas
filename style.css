@@ -10,17 +10,30 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #ffd1dc, #ffe6cc);
+  background: linear-gradient(135deg, #ffd1dc, #ffe6cc, #fff0f5);
+  overflow: hidden;
+  animation: bgShift 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgShift {
+  0% { background-position: left; }
+  100% { background-position: right; }
 }
 
 .container {
   text-align: center;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  animation: fadeInUp 1s ease;
 }
 
 h1 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 2.2rem;
+  color: #444;
+  margin-bottom: 25px;
 }
 
 .cute-img {
@@ -30,13 +43,13 @@ h1 {
 }
 
 .cute-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
 }
 
 button {
@@ -51,10 +64,62 @@ button {
 #yes {
   background-color: #4CAF50;
   color: white;
+  box-shadow: 0 0 10px #4CAF50aa;
+}
+
+#yes:hover {
+  transform: scale(1.1);
+  background-color: #45a049;
 }
 
 #no {
-  background-color: #f76c6c;
+  background-color: #ff6b6b;
   color: white;
   position: relative;
+}
+
+#no:hover {
+  transform: scale(1.1);
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ❤️ animación de fondo con corazones */
+.hearts::before, .hearts::after {
+  content: "💖 💕 💞 💗 💓";
+  position: absolute;
+  font-size: 2rem;
+  animation: floatHearts 10s linear infinite;
+  width: 100%;
+  text-align: center;
+  top: 100%;
+  opacity: 0.6;
+}
+
+@keyframes floatHearts {
+  0% { transform: translateY(0); opacity: 0.8; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Animaciones base */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
