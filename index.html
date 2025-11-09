@@ -3,8 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dianita 😭❤️ </title>
-  <link rel="stylesheet" href="style.css">
+  <title>Dianita 😭❤️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffd1dc, #ffe6cc, #fff0f5);
+      overflow: hidden;
+      animation: bgShift 10s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift {
+      0% { background-position: left; }
+      100% { background-position: right; }
+    }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 1s ease;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: #444;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+    }
+    .cute-img {
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+    .cute-img:hover {
+      transform: scale(1.08);
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    button {
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #yes {
+      background-color: #4CAF50;
+      color: white;
+      box-shadow: 0 0 10px #4CAF50aa;
+    }
+    #yes:hover {
+      transform: scale(1.1);
+      background-color: #45a049;
+    }
+    #no {
+      background-color: #ff6b6b;
+      color: white;
+      position: relative;
+    }
+    #no:hover {
+      transform: scale(1.05);
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .hearts::before, .hearts::after {
+      content: "💖 💕 💞 💗 💓";
+      position: absolute;
+      font-size: 2rem;
+      animation: floatHearts 10s linear infinite;
+      width: 100%;
+      text-align: center;
+      top: 100%;
+      opacity: 0.6;
+    }
+    @keyframes floatHearts {
+      0% { transform: translateY(0); opacity: 0.8; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -15,7 +123,81 @@
       <button id="no">No 💔</button>
     </div>
   </div>
+  
+  <script>
+    const yesBtn = document.querySelector("#yes");
+    const noBtn = document.querySelector("#no");
+    const h1 = document.querySelector("h1");
+    const img = document.querySelector(".cute-img");
 
-  <script src="script.js"></script>
+    // 💖 Mensajes que cambian al intentar dar "No"
+    const messages = [
+      "¿Segura, Dianita? 🥺",
+      "Piénsalo bien... 💔",
+      "Te extraño mucho 😢",
+      "Dame una oportunidad 🙏",
+      "Por favor, amor 💕",
+      "No seas mala conmigo 😭",
+      "Prometo cambiar 💖",
+      "Eres mi todo 🌟",
+      "Sin ti no soy nada 😔",
+      "Una última oportunidad 🥺💕"
+    ];
+
+    let messageIndex = 0;
+
+    // 💖 Si da clic en "Sí"
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div class="container fade-in">
+          <h1>¡Sabía que me perdonarías, Dianita! 🥰💖</h1>
+          <img src="feliz.jpg" alt="Feliz" class="cute-img float" style="border-radius: 20px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);">
+          <p class="fade-in" style="margin-top:20px; font-size: 1.3rem; color: #555;">Eres la mejor 💕</p>
+        </div>
+        <div class="hearts"></div>
+      `;
+    });
+
+    // 💔 Si intenta dar clic o tocar "No", el botón se mueve
+    function moveNoButton() {
+      // Cambiar el mensaje
+      h1.textContent = messages[messageIndex];
+      messageIndex = (messageIndex + 1) % messages.length;
+      
+      // Detectar si es móvil
+      const isMobile = window.innerWidth <= 768;
+      const maxDistance = isMobile ? 80 : 250; // Movimiento limitado en móvil
+      
+      // Calcular margen de seguridad
+      const margin = 20;
+      const maxX = window.innerWidth - noBtn.clientWidth - margin;
+      const maxY = window.innerHeight - noBtn.clientHeight - margin;
+      
+      // Obtener posición actual
+      const currentX = noBtn.offsetLeft || window.innerWidth / 2;
+      const currentY = noBtn.offsetTop || window.innerHeight / 2;
+      
+      // Generar nueva posición cerca de la actual
+      let newX = currentX + (Math.random() - 0.5) * 2 * maxDistance;
+      let newY = currentY + (Math.random() - 0.5) * 2 * maxDistance;
+      
+      // Limitar dentro de la pantalla
+      newX = Math.max(margin, Math.min(newX, maxX));
+      newY = Math.max(margin, Math.min(newY, maxY));
+      
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+    }
+
+    // 🖱️ Para computadoras (cuando el cursor se acerca)
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    // 📱 Para pantallas táctiles (cuando se toca el botón)
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+  </script>
 </body>
 </html>
